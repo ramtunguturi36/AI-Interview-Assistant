@@ -19,11 +19,20 @@ export default defineConfig({
     exclude: [],
   },
   optimizeDeps: {
-    include: ['html2pdf.js'],
     esbuildOptions: {
       loader: {
         '.js': 'jsx',
       },
     },
   },
+  build: {
+    rollupOptions: {
+      external: ['html2pdf.js'],
+      output: {
+        globals: {
+          'html2pdf.js': 'html2pdf'
+        }
+      }
+    }
+  }
 }) 
