@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import html2pdf from 'html2pdf.js';
+import { html2pdf } from 'html2pdf.js';
+
 import FeedbackCard from '../components/FeedbackCard';
 import FeedbackAnalysis from '../components/FeedbackAnalysis';
 import ResourceCard from '../components/ResourceCard';
