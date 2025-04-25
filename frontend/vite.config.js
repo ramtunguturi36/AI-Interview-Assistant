@@ -19,6 +19,7 @@ export default defineConfig({
     exclude: [],
   },
   optimizeDeps: {
+    include: ['html2pdf.js'],
     esbuildOptions: {
       loader: {
         '.js': 'jsx',
