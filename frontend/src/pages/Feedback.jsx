@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import html2pdf from 'html2pdf.js';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 import FeedbackCard from '../components/FeedbackCard';
 import FeedbackAnalysis from '../components/FeedbackAnalysis';
@@ -73,22 +74,34 @@ function Feedback() {
     }
   };
 
-  const handleDownloadPDF = () => {
-    const element = feedbackRef.current;
-    const opt = {
-      margin: 1,
-      filename: 'interview-feedback.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
+  const handleDownloadPDF = async () => {
+    try {
+      const element = feedbackRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        allowTaint: true
+      });
 
-    html2pdf().set(opt).from(element).save().then(() => {
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'in',
+        format: 'letter'
+      });
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('interview-feedback.pdf');
       toast.success('PDF downloaded successfully');
-    }).catch(err => {
+    } catch (err) {
       toast.error('Failed to generate PDF');
       console.error('PDF generation error:', err);
-    });
+    }
   };
 
   const handleShare = async () => {
