@@ -28,9 +28,13 @@ A sophisticated AI-powered interview preparation platform that helps candidates 
 - MongoDB for session and user data storage
 - SQLite for structured data and caching
 - OpenAI Whisper for speech recognition
-- Llama 4 Maverick model for AI-powered evaluations
+- NLP Libraries:
+  - spaCy for text processing and entity recognition
+  - NLTK for natural language processing
+  - TextBlob for sentiment analysis
+  - Llama 4 Maverick model for advanced NLP tasks
+- OpenRouter API for question generation
 - PDF processing with pdfplumber
-- OpenRouter API integration for advanced AI capabilities
 
 ## Getting Started
 
